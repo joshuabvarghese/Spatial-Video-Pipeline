@@ -37,21 +37,21 @@ runs at the monitor's native rate regardless of inference speed.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Thread 1: CameraCapture                                     │
+│  Thread 1: CameraCapture                                    │
 │    └─► drains kernel camera buffer at native FPS            │
 │    └─► pushes to FrameRingBuffer (3-slot, lock-minimised)   │
-│                       │                                      │
-│  Thread 2: ImageProcessor                                    │
+│                       │                                     │
+│  Thread 2: ImageProcessor                                   │
 │    ├─► Custom BGR→HSV  (vectorised NumPy, no cv2.cvtColor)  │
 │    ├─► Custom Sobel    (manual 3×3 unroll, no cv2.Sobel)    │
 │    └─► HSV color mask  (for blob tracking mode)             │
-│                       │                                      │
-│  Thread 3: YOLOInferenceThread                               │
+│                       │                                     │
+│  Thread 3: YOLOInferenceThread                              │
 │    ├─► YOLOv8-nano via ONNX Runtime                         │
 │    ├─► Automatic EP: CUDA → CoreML → CPU                    │
 │    └─► Pure-NumPy NMS  (no torchvision, no cv2.dnn)         │
-│                       │                                      │
-│  Main Thread: RenderCompositor                               │
+│                       │                                     │
+│  Main Thread: RenderCompositor                              │
 │    ├─► VelocityTracker  (IoU match + EMA + Kalman)          │
 │    ├─► FrameRenderer    (trail, arrow, bbox, HUD)           │
 │    └─► cv2.imshow / VideoWriter                             │
