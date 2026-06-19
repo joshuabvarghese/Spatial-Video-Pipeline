@@ -1,0 +1,50 @@
+{
+  "capture": {
+    "source": 0,
+    "target_fps": 60,
+    "buffer_slots": 3
+  },
+  "processor": {
+    "sobel_sigma": 1.0,
+    "track_color": null
+  },
+  "inference": {
+    "model_path": null,
+    "input_size": 320,
+    "conf_threshold": 0.40,
+    "iou_threshold": 0.45,
+    "target_classes": null
+  },
+  "tracker": {
+    "ema_alpha": 0.4,
+    "trail_fade_s": 2.0,
+    "iou_threshold": 0.30,
+    "max_lost_frames": 10,
+    "use_kalman": true,
+    "trail_max_len": 60
+  },
+  "render": {
+    "show_edges": false,
+    "edge_alpha": 0.35,
+    "show_trail": true,
+    "trail_thickness": 2,
+    "show_velocity_arrow": true,
+    "arrow_scale": 0.05,
+    "show_hud": true,
+    "hud_alpha": 0.70,
+    "box_thickness": 2,
+    "font_scale": 0.55,
+    "font_thickness": 1
+  },
+  "output": {
+    "display": true,
+    "output_path": null,
+    "output_fps": 30,
+    "duration_s": 0
+  },
+  "profiler": {
+    "enabled": false,
+    "max_samples": 500,
+    "csv_path": "pipeline_profile.csv"
+  }
+}
