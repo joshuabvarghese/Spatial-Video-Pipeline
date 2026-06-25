@@ -71,7 +71,7 @@ def build_parser() -> argparse.ArgumentParser:
                    help="Detection confidence threshold (default: 0.40)")
     p.add_argument("--iou", type=float, default=0.45,
                    help="NMS IoU threshold (default: 0.45)")
-    p.add_argument("--input-size", type=int, default=320, choices=[320, 416, 640],
+    p.add_argument("--input-size", type=int, default=640, choices=[320, 416, 640],
                    help="YOLO model input resolution (default: 320)")
 
     # Processing

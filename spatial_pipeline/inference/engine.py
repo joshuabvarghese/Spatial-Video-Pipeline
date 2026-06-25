@@ -235,20 +235,32 @@ class YOLOONNXEngine:
         return keep
 
     def _ensure_model(self) -> str:
-        """Download YOLOv8n and export to ONNX (one-time, cached)."""
+        """
+        Download YOLOv8n ONNX directly — no torch, no ultralytics required at runtime.
+        Cached at ~/.cache/spatial_pipeline/yolov8n_320.onnx after first run.
+        """
         cache = Path.home() / ".cache" / "spatial_pipeline" / "yolov8n_320.onnx"
         if cache.exists():
+            print(f"[YOLOEngine] Using cached model: {cache}")
             return str(cache)
-        print("[YOLOEngine] Exporting yolov8n → ONNX (one-time ~30s)…")
+
         cache.parent.mkdir(parents=True, exist_ok=True)
-        from ultralytics import YOLO
-        m = YOLO("yolov8n.pt")
-        m.export(format="onnx", imgsz=self._cfg.input_size,
-                 simplify=True, half=False, dynamic=False)
-        import shutil
-        src = Path("yolov8n.onnx")
-        if src.exists():
-            shutil.move(str(src), str(cache))
+        url = "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.onnx"
+        print(f"[YOLOEngine] Downloading YOLOv8n ONNX (~12 MB, one-time)…")
+
+        import urllib.request, shutil
+        tmp = cache.parent / "yolov8n_download.tmp"
+        try:
+            def _hook(count, block, total):
+                if total > 0:
+                    print(f"  {min(100, count*block*100//total)}%", end="", flush=True)
+            urllib.request.urlretrieve(url, str(tmp), reporthook=_hook)
+            print()
+            shutil.move(str(tmp), str(cache))
+            print(f"[YOLOEngine] Saved → {cache}")
+        except Exception as e:
+            if tmp.exists(): tmp.unlink()
+            raise RuntimeError(f"Download failed: {e}. Get it manually from {url} and save to {cache}") from e
         return str(cache)
 
 

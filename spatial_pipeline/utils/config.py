@@ -39,7 +39,7 @@ class ProcessorConfig:
 @dataclass
 class InferenceConfig:
     model_path: Optional[str] = None  # auto-downloads yolov8n if None
-    input_size: int = 320             # model resolution (320=fast, 640=accurate)
+    input_size: int = 640             # model resolution (320=fast, 640=accurate)
     conf_threshold: float = 0.40
     iou_threshold: float = 0.45
     target_classes: Optional[List[str]] = None  # None = all COCO classes
