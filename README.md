@@ -112,7 +112,7 @@ git clone https://github.com/your-org/spatial-pipeline
 cd spatial-pipeline
 
 # Install (CPU)
-pip install -e ".[dev]"
+pip3 install -e ".[dev]"
 
 # Install (GPU — CUDA 12)
 pip install -e ".[gpu,dev]"
@@ -125,24 +125,27 @@ pip install -e ".[gpu,dev]"
 ## Quick Start
 
 ```bash
+# Install dependencies
+pip3 install opencv-python numpy onnxruntime ultralytics
+
 # Webcam (camera index 0)
-python scripts/run_pipeline.py --source 0
+python3 scripts/run_pipeline.py --source 0
 
 # Video file with Sobel overlay and profiler
-python scripts/run_pipeline.py --source demo.mp4 --show-edges --profile
+python3 scripts/run_pipeline.py --source demo.mp4 --show-edges --profile
 
 # Track only people, high confidence, save to file
-python scripts/run_pipeline.py --source 0 --classes person --conf 0.55 --output out.mp4
+python3 scripts/run_pipeline.py --source 0 --classes person --conf 0.55 --output out.mp4
 
 # Track a red ball (HSV color mode)
-python scripts/run_pipeline.py --source 0 --track-color red
+python3 scripts/run_pipeline.py --source 0 --track-color red
 
 # Headless 30-second benchmark
-python scripts/run_pipeline.py --source 0 --no-display --duration 30 --profile
+python3 scripts/run_pipeline.py --source 0 --no-display --duration 30 --profile
 
 # Load from config file (override with env vars)
 SP_INFERENCE__CONF_THRESHOLD=0.6 \
-python scripts/run_pipeline.py --config configs/default.json
+python3 scripts/run_pipeline.py --config configs/default.json
 ```
 
 ---
